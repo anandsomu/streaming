@@ -1,7 +1,7 @@
 package com.listener.handler;
 
-import static com.listener.beans.NotificationType.DQ_JOB_INSERT;
-import static com.listener.beans.NotificationType.DQ_JOB_UPDATE;
+import static com.listener.beans.NotificationType.INSERT;
+import static com.listener.beans.NotificationType.UPDATE;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.IntStream.range;
@@ -56,10 +56,10 @@ public class LogEventHandler implements BinaryLogClient.EventListener {
      */
     @PostConstruct
     private void init() {
-        hasColPosToName = position -> columnsDao.columnNameForOrdinalPosition(ColumnsDao.JOB_INSTANCE_BEAN,
+        hasColPosToName = position -> columnsDao.columnNameForOrdinalPosition(ColumnsDao.PRODUCT_DISTRIBUTION,
                                                                               position)
                                                 .isPresent();
-        colPosToNameFn = i -> columnsDao.columnNameForOrdinalPosition(ColumnsDao.JOB_INSTANCE_BEAN, i).get();
+        colPosToNameFn = i -> columnsDao.columnNameForOrdinalPosition(ColumnsDao.PRODUCT_DISTRIBUTION, i).get();
 
     }
 
@@ -86,13 +86,13 @@ public class LogEventHandler implements BinaryLogClient.EventListener {
                 UpdateRowsEventData updatedData =
                                 (UpdateRowsEventData) requireNonNull(data,
                                                                      "Empty binary log event data");
-                if (updatedData.getTableId() == tableMap.getOrDefault(ColumnsDao.JOB_INSTANCE_BEAN, 0L)) {
+                if (updatedData.getTableId() == tableMap.getOrDefault(ColumnsDao.PRODUCT_DISTRIBUTION, 0L)) {
 
                     final int oldColumnSize = updatedData.getIncludedColumnsBeforeUpdate().length();
                     final int newColumnSize = updatedData.getIncludedColumns().length();
 
                     NotificationEvent notificationEvent = new NotificationEvent();
-                    notificationEvent.setNotificationType(DQ_JOB_UPDATE);
+                    notificationEvent.setNotificationType(UPDATE);
                     notificationEvent.setUtcTimestamp(header.getTimestamp());
 
                     updatedData.getRows().parallelStream().map(entry -> {
@@ -113,7 +113,7 @@ public class LogEventHandler implements BinaryLogClient.EventListener {
                 WriteRowsEventData insertedData =
                                 (WriteRowsEventData) requireNonNull(data,
                                                                     "Empty binary log event data");;
-                if (insertedData.getTableId() == tableMap.getOrDefault(ColumnsDao.JOB_INSTANCE_BEAN, 0L)) {
+                if (insertedData.getTableId() == tableMap.getOrDefault(ColumnsDao.PRODUCT_DISTRIBUTION, 0L)) {
 
                     final int noOfIncludedColumns = insertedData.getIncludedColumns().length();
 
@@ -122,7 +122,7 @@ public class LogEventHandler implements BinaryLogClient.EventListener {
                              noOfIncludedColumns);
 
                     NotificationEvent notificationEvent = new NotificationEvent();
-                    notificationEvent.setNotificationType(DQ_JOB_INSERT);
+                    notificationEvent.setNotificationType(INSERT);
                     notificationEvent.setUtcTimestamp(header.getTimestamp());
 
                     insertedData.getRows()

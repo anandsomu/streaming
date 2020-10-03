@@ -15,10 +15,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    @Value("${powerme.notification.rabbitmq.queue}")
+    @Value("${notification.rabbitmq.queue}")
     private String QUEUE_NOTIFICATION;
 
-    @Value("${powerme.notification.rabbitmq.exchange}")
+    @Value("${notification.rabbitmq.exchange}")
     private String EXCHANGE_NOTIFICATION;
 
     @Bean

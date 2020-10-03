@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ColumnsDao {
 
-    public static final String JOB_INSTANCE_BEAN = "JOBINSTANCEBEAN";
+    public static final String PRODUCT_DISTRIBUTION = "product_distribution";
     @Value("${mysql.binlog.host:localhost}")
     private String host;
 
@@ -45,7 +45,7 @@ public class ColumnsDao {
 
     @PostConstruct
     private void init() {
-        tableColumns.putAll(getColumnsMetaInfo("quartz", JOB_INSTANCE_BEAN));
+        tableColumns.putAll(getColumnsMetaInfo("source", PRODUCT_DISTRIBUTION));
     }
 
     private Map<String, List<InfoSchemaColumn>> getColumnsMetaInfo(String schemaName,

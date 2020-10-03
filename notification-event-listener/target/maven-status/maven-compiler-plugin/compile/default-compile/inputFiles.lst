@@ -1,8 +1,8 @@
+/Users/anand/Documents/code/streaming/notification-event-listener/src/main/java/com/listener/beans/sourcedb/ProductDistribution.java
 /Users/anand/Documents/code/streaming/notification-event-listener/src/main/java/com/listener/beans/NotificationType.java
 /Users/anand/Documents/code/streaming/notification-event-listener/src/main/java/com/listener/NotificationEventListenerApplication.java
 /Users/anand/Documents/code/streaming/notification-event-listener/src/main/java/com/listener/config/RabbitConfig.java
 /Users/anand/Documents/code/streaming/notification-event-listener/src/main/java/com/listener/beans/InfoSchemaColumn.java
-/Users/anand/Documents/code/streaming/notification-event-listener/src/main/java/com/listener/beans/JobInstanceBean.java
 /Users/anand/Documents/code/streaming/notification-event-listener/src/main/java/com/listener/services/Producer.java
 /Users/anand/Documents/code/streaming/notification-event-listener/src/main/java/com/listener/handler/LogEventHandler.java
 /Users/anand/Documents/code/streaming/notification-event-listener/src/main/java/com/listener/beans/NotificationEvent.java

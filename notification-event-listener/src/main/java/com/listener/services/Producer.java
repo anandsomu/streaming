@@ -1,17 +1,16 @@
 package com.listener.services;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import lombok.extern.slf4j.Slf4j;
 
-
-@Component
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class Producer {
-    @Autowired
-    private AmqpTemplate amqpTemplate;
+    private final AmqpTemplate amqpTemplate;
 
     @Value("${notification.rabbitmq.queue}")
     private String QUEUE_NOTIFICATION;
