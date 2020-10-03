@@ -1,0 +1,43 @@
+#!/bin/sh
+
+trap "echo Execution interupted  by user; exit 1" 2
+
+exec_container() {
+
+  cd ${MNT_DIR}
+
+  for path in config logs
+  do
+    if [ ! -e ${path} ]
+    then
+      mkdir -p ${MNT_DIR}/${path};
+    fi
+  done
+
+  chmod -R 777 ${MNT_DIR}
+
+  cd ${BIN_DIR}/default-config
+  for file in ./*
+  do
+    if [ ! -e ${MNT_DIR}/config/${file} ]
+    then
+      echo ${file}
+      su-exec ${USER} cp ${BIN_DIR}/default-config/${file} ${MNT_DIR}/config/
+    fi
+  done
+
+  if [ -e ${MNT_DIR}/pre-exec-task.sh ]
+  then
+    su-exec ${USER} sh ${MNT_DIR}/pre-exec-task.sh
+  fi
+
+  cd ${BIN_DIR}
+  su-exec ${USER} /deployments/run-java.sh
+}
+
+if [ "$1" != "run" ]
+then
+  su-exec ${USER} "$@"
+else
+  exec_container "$@"
+fi
