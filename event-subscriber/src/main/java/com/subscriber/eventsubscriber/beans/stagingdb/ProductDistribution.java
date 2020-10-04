@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,8 +14,9 @@ import java.io.Serializable;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
+@Builder
 public class ProductDistribution implements Serializable {
-    private String id;
+    private Long id;
     private String companyName;
     private String productName;
     private String distributor;
