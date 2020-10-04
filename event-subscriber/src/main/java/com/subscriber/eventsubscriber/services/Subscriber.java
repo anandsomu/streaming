@@ -1,7 +1,7 @@
 package com.subscriber.eventsubscriber.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.subscriber.eventsubscriber.beans.NotificationEvent;
+import com.streaming.model.NotificationEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;

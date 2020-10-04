@@ -1,4 +1,4 @@
-package com.listener.beans;
+package com.streaming.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

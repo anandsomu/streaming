@@ -1,4 +1,4 @@
-package com.subscriber.eventsubscriber.beans;
+package com.streaming.model;
 
 
 public enum NotificationType {

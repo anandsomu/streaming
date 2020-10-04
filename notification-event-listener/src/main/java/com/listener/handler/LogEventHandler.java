@@ -1,35 +1,28 @@
 package com.listener.handler;
 
-import static com.listener.beans.NotificationType.INSERT;
-import static com.listener.beans.NotificationType.UPDATE;
-import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.IntStream.range;
+import com.github.shyiko.mysql.binlog.BinaryLogClient;
+import com.github.shyiko.mysql.binlog.event.*;
+import com.listener.dao.ColumnsDao;
+import com.listener.services.Producer;
+import com.streaming.model.NotificationDataRow;
+import com.streaming.model.NotificationEvent;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
 
-import javax.annotation.PostConstruct;
-
-import com.listener.dao.ColumnsDao;
-import com.listener.services.Producer;
-import org.springframework.stereotype.Component;
-
-import com.listener.beans.NotificationDataRow;
-import com.listener.beans.NotificationEvent;
-import com.github.shyiko.mysql.binlog.BinaryLogClient;
-import com.github.shyiko.mysql.binlog.event.Event;
-import com.github.shyiko.mysql.binlog.event.EventData;
-import com.github.shyiko.mysql.binlog.event.EventHeader;
-import com.github.shyiko.mysql.binlog.event.TableMapEventData;
-import com.github.shyiko.mysql.binlog.event.UpdateRowsEventData;
-import com.github.shyiko.mysql.binlog.event.WriteRowsEventData;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import static com.streaming.model.NotificationType.INSERT;
+import static com.streaming.model.NotificationType.UPDATE;
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.IntStream.range;
 
 
 @Slf4j
@@ -63,9 +56,7 @@ public class LogEventHandler implements BinaryLogClient.EventListener {
 
     @Override
     public void onEvent(Event event) {
-
         EventData data = event.getData();
-
         final EventHeader header = event.getHeader();
         log.info("Event Header : {}", header);
         log.debug("Event Data : {}", data);
@@ -73,8 +64,11 @@ public class LogEventHandler implements BinaryLogClient.EventListener {
         switch (header.getEventType()) {
             case TABLE_MAP:
                 TableMapEventData tableData =
-                                (TableMapEventData) requireNonNull(data,
-                                                                   "Empty binary log event data");;
+                        (TableMapEventData) requireNonNull(data,
+                                "Empty binary log event data");
+                if(!StringUtils.equalsIgnoreCase(tableData.getDatabase(),"source")){
+                    return;
+                }
                 tableMap.put(tableData.getTable(), tableData.getTableId());
                 break;
             case EXT_DELETE_ROWS:
