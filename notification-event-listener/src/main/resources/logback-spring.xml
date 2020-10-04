@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-	<property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-logs/}listener}"/>
-	<include resource="logback-spring-base.xml"/>
-	<logger name="org.glassfish.jersey" level="WARN"/>
-	<logger name="com.enquero" level="DEBUG"/>
-	<logger name="org.springframework.amqp" level="DEBUG"/>
-</configuration>

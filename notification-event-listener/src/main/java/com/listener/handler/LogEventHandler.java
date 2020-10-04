@@ -51,9 +51,7 @@ public class LogEventHandler implements BinaryLogClient.EventListener {
      */
     private Function<Integer, String> colPosToNameFn;
 
-    /**
-     * Initialize column metadata for "JOBINSTANCEBEAN" table
-     */
+
     @PostConstruct
     private void init() {
         hasColPosToName = position -> columnsDao.columnNameForOrdinalPosition(ColumnsDao.PRODUCT_DISTRIBUTION,
